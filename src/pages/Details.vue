@@ -39,25 +39,28 @@
           GHC {{ apartment.price }}
         </div>
       </q-card-title>
+      <q-card-main>
+        <p class="text-faded" v-html="apartment.description"></p>
+        <p class="text-faded">Posted on {{apartment.date}}</p>
+      </q-card-main>
     </q-card>
 
-    <directions-map :apartment="apartment"></directions-map>
-
-    <q-card style="width: 400px;" class="q-ma-sm">
+    <q-card style="width: 250px;" class="q-ma-sm">
       <q-card-main>
         <p>{{ apartment.beds }} beds</p>
         <p>{{ apartment.baths }} baths</p>
         <p>{{ apartment.size }}</p>
-        <p>Street or landmark: <br> <span class="text-faded">{{ apartment.street_or_landmark }}</span></p>
-        <p class="text-faded" v-html="apartment.description"></p>
+        <p>{{ apartment.street_or_landmark }}</p>
         <strong>Contacts</strong>
         <p>{{apartment.contacts}}</p>
-        <p class="text-faded">{{apartment.date}}</p>
         <q-btn
           color="primary"
           outline
           @click="openURL(apartment.url)"
+          class="full-width"
           label="Open in Tonaton" />
+
+        <div class="q-mt-lg">{{ apartment.state }}</div>
       </q-card-main>
       <q-card-separator />
       <q-card-actions>
@@ -66,12 +69,24 @@
                label="Reject"
                class="q-mr-auto"
                @click="rejectApartment(apartment)"/>
-        <!--<q-btn flat color="primary" label="Been there" :to="`/details/${apartment['.key']}`" />-->
-        <!--<q-btn flat color="primary" label="Called" :to="`/details/${apartment['.key']}`" />-->
-        <q-btn flat
+
+        <q-btn v-if="!apartment.state"
+               flat
                color="primary"
                label="Like"
                @click="likeApartment(apartment)"/>
+
+        <q-btn v-if="apartment.state === 'liked'"
+               flat
+               color="primary"
+               label="Set as called"
+               @click="setApartmentAsCalled(apartment)"/>
+
+        <q-btn v-if="apartment.state === 'called'"
+               flat
+               color="primary"
+               label="Set as visited"
+               @click="setApartmentAsVisited(apartment)"/>
       </q-card-actions>
     </q-card>
 
@@ -82,25 +97,7 @@
 </style>
 
 <script>
-
-import Vue from 'vue'
-import VueFire from 'vuefire'
-import firebase from 'firebase'
-
-// explicit installation required in module environments
-Vue.use(VueFire)
-
-let config = {
-  apiKey: 'AIzaSyAnFB3HxZlxwCVwPn0br2Gb0JqDYR7OnjU',
-  authDomain: 'surreal-159622.firebaseapp.com',
-  databaseURL: 'https://surreal-159622.firebaseio.com',
-  projectId: 'surreal-159622',
-  storageBucket: 'surreal-159622.appspot.com',
-  messagingSenderId: '213701187584'
-}
-
-let firebaseApp = firebase.initializeApp(config)
-let db = firebaseApp.database()
+import db from '../plugins/database'
 
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
@@ -120,7 +117,14 @@ export default {
     return {
       apartment: {
         source: db.ref(`/apartments/${this.$route.params.id}`),
-        asObject: true
+        // optionally bind as an object
+        asObject: true,
+        // optionally provide the cancelCallback
+        cancelCallback: function () {},
+        // this is called once the data has been retrieved from firebase
+        readyCallback: function () {
+
+        }
       }
     }
   },
