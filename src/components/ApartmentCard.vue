@@ -4,6 +4,7 @@
     <q-item-main>
       <q-item-tile label>{{ apartment.title }}</q-item-tile>
       <q-item-tile sublabel>GHC {{ apartment.price }}</q-item-tile>
+      <q-item-tile sublabel>{{ apartment.poster }}</q-item-tile>
     </q-item-main>
     <q-item-side right>
       <q-item-tile stamp>{{ apartment.beds }} beds</q-item-tile>
