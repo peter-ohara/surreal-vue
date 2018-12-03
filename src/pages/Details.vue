@@ -51,8 +51,13 @@
         <p>{{ apartment.baths }} baths</p>
         <p>{{ apartment.size }}</p>
         <p>{{ apartment.street_or_landmark }}</p>
-        <strong>Contacts</strong>
-        <p>{{apartment.contacts}}</p>
+
+        <p><strong>Contacts</strong></p>
+        <p>
+          <a :href="`tel:${apartment.contacts}`">
+            {{apartment.contacts}}
+          </a>
+        </p>
         <q-btn
           color="primary"
           outline
