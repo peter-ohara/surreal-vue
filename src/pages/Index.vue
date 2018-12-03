@@ -35,13 +35,15 @@ export default {
   },
   computed: {
     filteredApartments () {
-      return this.apartments.filter(apartment => {
-        if (this.$route.params.state === 'new' && !apartment.state) {
-          return true
-        } else {
-          return apartment.state === this.$route.params.state
-        }
-      })// .sort(this.sortByBaths)
+      return this.apartments
+        .filter(apartment => {
+          if (this.$route.params.state === 'new' && !apartment.state) {
+            return true
+          } else {
+            return apartment.state === this.$route.params.state
+          }
+        })
+        .sort(this.sortByPoster)
     }
   },
   methods: {
