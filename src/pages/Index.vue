@@ -1,11 +1,22 @@
 <template>
   <q-page padding class="row justify-center">
-    <q-list link separator>
-      <q-list-header>
-        {{ $route.params.state }} ({{filteredApartments.length }})
-      </q-list-header>
-      <apartment-card :apartment="apartment" v-for="apartment in filteredApartments" :key="apartment['.key']" />
-    </q-list>
+    <div class="col-12 col-sm-10 col-md-10 col-lg-8 col-xl-6">
+      <q-list link separator v-if="filteredApartments.length > 0">
+        <q-list-header>
+          {{ $route.params.state }} ({{filteredApartments.length }})
+        </q-list-header>
+        <apartment-card :apartment="apartment" v-for="apartment in filteredApartments" :key="apartment['.key']" />
+      </q-list>
+      <div v-else class="fixed-center text-center">
+        <p>
+          <img
+            src="~assets/white-balance-sunny.svg"
+            style="width:30vw;max-width:150px;"
+          >
+        </p>
+        <p class="text-faded">No apartments in {{$route.params.state}}</p>
+      </div>
+    </div>
   </q-page>
 </template>
 <script>

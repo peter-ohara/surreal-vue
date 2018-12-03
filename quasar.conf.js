@@ -38,34 +38,50 @@ module.exports = function (ctx) {
       open: true // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!
-    framework: 'all',
-    // framework: {
-    //   components: [
-    //     'QLayout',
-    //     'QLayoutHeader',
-    //     'QLayoutDrawer',
-    //     'QPageContainer',
-    //     'QPage',
-    //     'QToolbar',
-    //     'QToolbarTitle',
-    //     'QBtn',
-    //     'QIcon',
-    //     'QList',
-    //     'QListHeader',
-    //     'QItem',
-    //     'QItemMain',
-    //     'QItemSide'
-    //   ],
-    //   directives: [
-    //     'Ripple'
-    //   ],
-    //   // Quasar plugins
-    //   plugins: [
-    //     'Notify'
-    //   ]
-    //   // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
-    //   // i18n: 'de' // Quasar language
-    // },
+    // framework: 'all',
+    framework: {
+      components: [
+        'QLayout',
+        'QLayoutHeader',
+        'QPageContainer',
+        'QPage',
+        'QToolbar',
+        'QToolbarTitle',
+        'QTabs',
+        'QRouteTab',
+        'QBtn',
+        'QIcon',
+        'QList',
+        'QListHeader',
+        'QItem',
+        'QItemSide',
+        'QItemMain',
+        'QItemTile',
+        'QCard',
+        'QCardTitle',
+        'QCardMain',
+        'QCardMedia',
+        'QCardSeparator',
+        'QCardActions',
+        'QCarousel',
+        'QCarouselSlide',
+        'QCarouselControl'
+      ],
+      // directives: [
+      //   'Ripple'
+      // ],
+      // Quasar plugins
+      plugins: [
+        'Notify'
+      ],
+      // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
+      // i18n: 'de' // Quasar language
+      config: {
+        notify: {
+          color: 'black'
+        }
+      }
+    },
     // animations: 'all' --- includes all animations
     animations: [],
     ssr: {

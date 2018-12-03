@@ -48,41 +48,17 @@ export default {
       return this.apartments.filter(apartment => !apartment.state)
     },
     likedApartments () {
-      return this.apartments.filter(apartment => apartment.state === 'liked').sort(this.sortByPoster)
+      return this.apartments.filter(apartment => apartment.state === 'liked')
     },
     calledApartments () {
-      return this.apartments.filter(apartment => apartment.state === 'called').sort(this.sortByPoster)
+      return this.apartments.filter(apartment => apartment.state === 'called')
     },
     visitedApartments () {
-      return this.apartments.filter(apartment => apartment.state === 'visited').sort(this.sortByPoster)
+      return this.apartments.filter(apartment => apartment.state === 'visited')
     },
     rejectedApartments () {
       return this.apartments.filter(apartment => apartment.state === 'rejected')
     }
-  },
-  methods: {
-    sortByPoster (apartmentA, apartmentB) {
-      if (!apartmentA.poster) return -1
-      if (!apartmentB.poster) return -1
-
-      let nameA = apartmentA.poster.toUpperCase() // ignore upper and lowercase
-      let nameB = apartmentB.poster.toUpperCase() // ignore upper and lowercase
-      if (nameA < nameB) {
-        return -1
-      }
-      if (nameA > nameB) {
-        return 1
-      }
-
-      // names must be equal
-      return 0
-    }
   }
 }
 </script>
-
-<style>
-  .width-300 {
-    /*width: 450px !important;*/
-  }
-</style>
