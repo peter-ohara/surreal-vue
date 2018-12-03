@@ -1,44 +1,13 @@
 <template>
-  <q-page class="row now-wrap items-start q-py-lg board">
-
-    <q-list link separator class="width-300  q-mx-sm q-mb-lg">
+  <q-page padding class="row justify-center">
+    <q-list link separator>
       <q-list-header>
-        New ({{newApartments.length }})
+        {{ $route.params.state }} ({{filteredApartments.length }})
       </q-list-header>
-      <apartment-card :apartment="apartment" v-for="apartment in newApartments" :key="apartment['.key']" />
+      <apartment-card :apartment="apartment" v-for="apartment in filteredApartments" :key="apartment['.key']" />
     </q-list>
-
-    <q-list link separator class="width-300  q-mx-sm q-mb-lg">
-      <q-list-header>
-        Liked ({{likedApartments.length }})
-      </q-list-header>
-      <apartment-card :apartment="apartment" v-for="apartment in likedApartments" :key="apartment['.key']" />
-    </q-list>
-
-    <q-list link separator class="width-300  q-mx-sm q-mb-lg">
-      <q-list-header>
-        Called ({{calledApartments.length }})
-      </q-list-header>
-      <apartment-card :apartment="apartment" v-for="apartment in calledApartments" :key="apartment['.key']" />
-    </q-list>
-
-    <q-list link separator class="width-300  q-mx-sm q-mb-lg">
-      <q-list-header>
-        Visited ({{visitedApartments.length }})
-      </q-list-header>
-      <apartment-card :apartment="apartment" v-for="apartment in visitedApartments" :key="apartment['.key']" />
-    </q-list>
-
-    <q-list link separator class="width-300  q-mx-sm q-mb-lg">
-      <q-list-header>
-        Rejected ({{rejectedApartments.length }})
-      </q-list-header>
-      <apartment-card :apartment="apartment" v-for="apartment in rejectedApartments" :key="apartment['.key']" />
-    </q-list>
-
   </q-page>
 </template>
-
 <script>
 
 import ApartmentCard from '../components/ApartmentCard'
@@ -46,7 +15,7 @@ import ApartmentCard from '../components/ApartmentCard'
 import db from '../plugins/database'
 
 export default {
-  name: 'PageIndex',
+  name: 'New',
   components: {ApartmentCard},
   firebase: function () {
     return {
@@ -54,20 +23,14 @@ export default {
     }
   },
   computed: {
-    newApartments () {
-      return this.apartments.filter(apartment => !apartment.state)
-    },
-    likedApartments () {
-      return this.apartments.filter(apartment => apartment.state === 'liked').sort(this.sortByPoster)
-    },
-    calledApartments () {
-      return this.apartments.filter(apartment => apartment.state === 'called').sort(this.sortByPoster)
-    },
-    visitedApartments () {
-      return this.apartments.filter(apartment => apartment.state === 'visited').sort(this.sortByPoster)
-    },
-    rejectedApartments () {
-      return this.apartments.filter(apartment => apartment.state === 'rejected')
+    filteredApartments () {
+      return this.apartments.filter(apartment => {
+        if (this.$route.params.state === 'new' && !apartment.state) {
+          return true
+        } else {
+          return apartment.state === this.$route.params.state
+        }
+      })// .sort(this.sortByBaths)
     }
   },
   methods: {
@@ -86,6 +49,9 @@ export default {
 
       // names must be equal
       return 0
+    },
+    sortByBaths (apartmentA, apartmentB) {
+      return apartmentA.baths - apartmentB.baths
     }
   }
 }
@@ -93,6 +59,6 @@ export default {
 
 <style>
   .width-300 {
-    width: 450px !important;
+    width: 100% !important;
   }
 </style>

@@ -70,7 +70,7 @@
                class="q-mr-auto"
                @click="rejectApartment(apartment)"/>
 
-        <q-btn v-if="!apartment.state"
+        <q-btn v-if="!apartment.state || apartment.state === 'rejected'"
                flat
                color="primary"
                label="Like"
@@ -132,11 +132,21 @@ export default {
   methods: {
     likeApartment (apartment) {
       this.$firebaseRefs.apartment.child('state').set('liked')
-      this.$router.push('/')
+      this.$router.go(-1)
+      this.$q.notify(`Liked ${apartment.title} - GHC ${apartment.price}`)
     },
     rejectApartment (apartment) {
       this.$firebaseRefs.apartment.child('state').set('rejected')
-      this.$router.push('/')
+      this.$router.go(-1)
+      this.$q.notify(`Rejected ${apartment.title} - GHC ${apartment.price}`)
+    },
+    setApartmentAsCalled (apartment) {
+      this.$firebaseRefs.apartment.child('state').set('called')
+      this.$q.notify(`Called ${apartment.title} - GHC ${apartment.price}`)
+    },
+    setApartmentAsVisited (apartment) {
+      this.$firebaseRefs.apartment.child('state').set('visited')
+      this.$router.go(-1)
     },
     timeAgo (dateString) {
       let newDate = new Date(dateString)
