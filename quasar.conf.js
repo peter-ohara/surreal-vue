@@ -80,8 +80,8 @@ module.exports = function (ctx) {
         // description: 'Best PWA App in town!',
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#ffffff',
-        theme_color: '#027be3',
+        background_color: '#f8f9fa',
+        theme_color: '#DB2828',
         icons: [
           {
             'src': 'statics/icons/icon-128x128.png',
