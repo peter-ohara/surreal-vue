@@ -148,11 +148,13 @@ export default {
     },
     setApartmentAsCalled (apartment) {
       this.$firebaseRefs.apartment.child('state').set('called')
+      this.$router.go(-1)
       this.$q.notify(`Called "${apartment.title}" - GHC ${apartment.price}`)
     },
     setApartmentAsVisited (apartment) {
       this.$firebaseRefs.apartment.child('state').set('visited')
       this.$router.go(-1)
+      this.$q.notify(`Visited "${apartment.title}" - GHC ${apartment.price}`)
     },
     timeAgo (dateString) {
       let newDate = new Date(dateString)
