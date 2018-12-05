@@ -62,6 +62,13 @@
                      placeholder="Street or landmark"
                      @input="setStreetOrLandMark(apartment)"/>
           </p>
+          <p>
+            <q-input v-model="apartment.distance"
+                     float-label="Distance"
+                     placeholder="Distance"
+                     suffix="km"
+                     @input="setDistance(apartment)"/>
+          </p>
 
           <p><strong>Contacts</strong></p>
           <p>
@@ -165,6 +172,9 @@ export default {
     },
     setStreetOrLandMark (apartment) {
       this.$firebaseRefs.apartment.child('street_or_landmark').set(apartment.street_or_landmark)
+    },
+    setDistance (apartment) {
+      this.$firebaseRefs.apartment.child('distance').set(apartment.distance)
     },
     setNotes (apartment) {
       this.$firebaseRefs.apartment.child('notes').set(apartment.notes)

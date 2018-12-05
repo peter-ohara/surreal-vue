@@ -13,6 +13,7 @@
     <q-item-side right>
       <q-item-tile stamp>{{ apartment.beds }} beds</q-item-tile>
       <q-item-tile stamp>{{ apartment.baths }} baths</q-item-tile>
+      <q-item-tile stamp>{{ apartment.distance }} km</q-item-tile>
     </q-item-side>
   </q-item>
 </template>

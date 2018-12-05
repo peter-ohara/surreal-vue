@@ -44,7 +44,8 @@ export default {
       sortOptions: [
         { label: 'Poster', value: 'sortByPoster' },
         { label: 'Stars', value: 'sortByStars' },
-        { label: 'Baths', value: 'sortByBaths' }
+        { label: 'Baths', value: 'sortByBaths' },
+        { label: 'Distance', value: 'sortByDistance' }
       ]
     }
   },
@@ -85,6 +86,9 @@ export default {
     },
     sortByBaths (apartmentA, apartmentB) {
       return apartmentA.baths - apartmentB.baths
+    },
+    sortByDistance (apartmentA, apartmentB) {
+      return apartmentA.distance - apartmentB.distance
     }
   }
 }
