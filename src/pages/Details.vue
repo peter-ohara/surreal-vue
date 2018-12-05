@@ -29,6 +29,11 @@
         </q-card-media>
         <q-card-title>
           {{ apartment.title }}
+          <q-rating slot="subtitle"
+                    v-model="apartment.stars"
+                    :max="5"
+                    @input="setStars(apartment)"/>
+
           <div slot="subtitle">
             <strong>{{ timeAgo(apartment.date) }}</strong>
             by
@@ -51,7 +56,12 @@
           <p>{{ apartment.beds }} beds</p>
           <p>{{ apartment.baths }} baths</p>
           <p>{{ apartment.size }}</p>
-          <p>{{ apartment.street_or_landmark }}</p>
+          <p>
+            <q-input v-model="apartment.street_or_landmark"
+                     float-label="Street or landmark"
+                     placeholder="Street or landmark"
+                     @input="setStreetOrLandMark(apartment)"/>
+          </p>
 
           <p><strong>Contacts</strong></p>
           <p>
@@ -96,6 +106,20 @@
         </q-card-actions>
       </q-card>
     </div>
+
+    <div class="col-xs-12 col-md-4 col-lg-3 col-xl-2">
+      <q-card class="no-margin">
+        <q-card-main>
+          <q-input
+            v-model="apartment.notes"
+            type="textarea"
+            float-label="Notes"
+            @input="setNotes(apartment)"
+            rows="7"
+          />
+        </q-card-main>
+      </q-card>
+    </div>
   </q-page>
 </template>
 
@@ -136,6 +160,15 @@ export default {
   },
 
   methods: {
+    setStars (apartment) {
+      this.$firebaseRefs.apartment.child('stars').set(apartment.stars)
+    },
+    setStreetOrLandMark (apartment) {
+      this.$firebaseRefs.apartment.child('street_or_landmark').set(apartment.street_or_landmark)
+    },
+    setNotes (apartment) {
+      this.$firebaseRefs.apartment.child('notes').set(apartment.notes)
+    },
     likeApartment (apartment) {
       this.$firebaseRefs.apartment.child('state').set('liked')
       this.$router.go(-1)

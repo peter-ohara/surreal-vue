@@ -3,8 +3,13 @@
     <div class="col-12 col-sm-10 col-md-10 col-lg-8 col-xl-6">
       <q-list link separator v-if="filteredApartments.length > 0">
         <q-list-header>
-          {{ $route.params.state }} ({{filteredApartments.length }})
+          <q-select
+            float-label="Sort by?"
+            v-model="sortMethod"
+            :options="sortOptions"
+          />
         </q-list-header>
+        <q-item-separator />
         <apartment-card :apartment="apartment" v-for="apartment in filteredApartments" :key="apartment['.key']" />
       </q-list>
       <div v-else class="fixed-center text-center">
@@ -33,6 +38,16 @@ export default {
       apartments: db.ref('/apartments')
     }
   },
+  data () {
+    return {
+      sortMethod: 'sortByStars',
+      sortOptions: [
+        { label: 'Poster', value: 'sortByPoster' },
+        { label: 'Stars', value: 'sortByStars' },
+        { label: 'Baths', value: 'sortByBaths' }
+      ]
+    }
+  },
   computed: {
     filteredApartments () {
       return this.apartments
@@ -43,7 +58,7 @@ export default {
             return apartment.state === this.$route.params.state
           }
         })
-        .sort(this.sortByPoster)
+        .sort(this[this.sortMethod])
     }
   },
   methods: {
@@ -62,6 +77,11 @@ export default {
 
       // names must be equal
       return 0
+    },
+    sortByStars (apartmentA, apartmentB) {
+      if (!apartmentA.stars) apartmentA.stars = 0
+      if (!apartmentB.stars) apartmentB.stars = 0
+      return apartmentB.stars - apartmentA.stars
     },
     sortByBaths (apartmentA, apartmentB) {
       return apartmentA.baths - apartmentB.baths
