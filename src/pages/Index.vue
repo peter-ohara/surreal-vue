@@ -1,13 +1,22 @@
 <template>
   <q-page padding class="row justify-center">
     <div class="col-12 col-sm-10 col-md-10 col-lg-8 col-xl-6">
+      <q-search v-model="searchPhrase"
+               clearable />
+
       <q-list link separator v-if="filteredApartments.length > 0">
         <q-list-header>
-          <q-select
-            float-label="Sort by?"
-            v-model="sortMethod"
-            :options="sortOptions"
-          />
+          <div class="row">
+            <div class="col">{{ filteredApartments.length }} apartments</div>
+            <div class="col">
+              <q-field
+                icon="sort">
+                <q-select
+                  v-model="sortMethod"
+                  :options="sortOptions" />
+              </q-field>
+            </div>
+          </div>
         </q-list-header>
         <q-item-separator />
         <apartment-card :apartment="apartment" v-for="apartment in filteredApartments" :key="apartment['.key']" />
@@ -46,12 +55,22 @@ export default {
         { label: 'Stars', value: 'sortByStars' },
         { label: 'Baths', value: 'sortByBaths' },
         { label: 'Distance', value: 'sortByDistance' }
-      ]
+      ],
+      searchPhrase: ''
     }
   },
   computed: {
     filteredApartments () {
       return this.apartments
+        .filter(apartment => {
+          const reducer = (accumulator, currentValue) => accumulator.concat(currentValue)
+          let content = Object.values(apartment).reduce(reducer)
+          if (content.includes(this.searchPhrase)) {
+            return true
+          } else {
+            return false
+          }
+        })
         .filter(apartment => {
           if (this.$route.params.state === 'new' && !apartment.state) {
             return true

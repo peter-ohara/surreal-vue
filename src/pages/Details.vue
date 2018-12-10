@@ -56,6 +56,7 @@
           <p>{{ apartment.beds }} beds</p>
           <p>{{ apartment.baths }} baths</p>
           <p>{{ apartment.size }}</p>
+          <p>{{ apartment.location }}</p>
           <p>
             <q-input v-model="apartment.street_or_landmark"
                      float-label="Street or landmark"

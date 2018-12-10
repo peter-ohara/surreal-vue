@@ -69,7 +69,9 @@ module.exports = function (ctx) {
         'QRating',
         'QSelect',
         'QItemSeparator',
-        'QInput'
+        'QInput',
+        'QSearch',
+        'QField'
       ],
       // directives: [
       //   'Ripple'

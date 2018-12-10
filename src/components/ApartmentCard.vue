@@ -4,7 +4,7 @@
     <q-item-main>
       <q-item-tile label>{{ apartment.title }}</q-item-tile>
       <q-item-tile sublabel>GHC {{ apartment.price }}</q-item-tile>
-      <q-item-tile sublabel>{{ apartment.street_or_landmark }}</q-item-tile>
+      <q-item-tile sublabel>{{ apartment.location }}</q-item-tile>
       <q-item-tile sublabel><strong>{{ apartment.poster }}</strong></q-item-tile>
       <q-item-tile sublabel>
         <q-rating readonly v-model="apartment.stars" />
