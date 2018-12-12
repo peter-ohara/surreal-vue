@@ -5,7 +5,11 @@
         color="red"
         :inverted="$q.theme === 'ios'">
         <q-toolbar-title>
-          Surreal
+          <q-search inverted
+                    color="none"
+                    placeholder="Surreal" no-icon
+                    @input="$store.commit('tonaton/setSearchPhrase', $event)"
+                    clearable />
         </q-toolbar-title>
 
       </q-toolbar>
@@ -34,31 +38,22 @@
 import ApartmentCard from '../components/ApartmentCard'
 
 import db from '../plugins/database'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'MyLayout',
   components: {ApartmentCard},
-  firebase: function () {
-    return {
-      apartments: db.ref('/apartments')
-    }
-  },
   computed: {
-    newApartments () {
-      return this.apartments.filter(apartment => !apartment.state)
-    },
-    likedApartments () {
-      return this.apartments.filter(apartment => apartment.state === 'liked')
-    },
-    calledApartments () {
-      return this.apartments.filter(apartment => apartment.state === 'called')
-    },
-    visitedApartments () {
-      return this.apartments.filter(apartment => apartment.state === 'visited')
-    },
-    rejectedApartments () {
-      return this.apartments.filter(apartment => apartment.state === 'rejected')
-    }
+    ...mapGetters({
+      newApartments: 'tonaton/newApartments',
+      likedApartments: 'tonaton/likedApartments',
+      calledApartments: 'tonaton/calledApartments',
+      visitedApartments: 'tonaton/visitedApartments',
+      rejectedApartments: 'tonaton/rejectedApartments'
+    })
+  },
+  created () {
+    this.$store.dispatch('tonaton/setApartmentsRef', { ref: db.ref('apartments').orderByChild('state') })
   }
 }
 </script>
