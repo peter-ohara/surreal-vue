@@ -202,7 +202,11 @@ export default {
     },
     timeAgo (dateString) {
       let newDate = new Date(dateString)
-      newDate = date.addToDate(newDate, { year: 17 })
+      let year = 18
+      if (newDate.getMonth() === 0) {
+        year = 19
+      }
+      newDate = date.addToDate(newDate, { year: year })
       return timeAgo.format(newDate)
     },
     openURL
